@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-lambda_project_home="/Users/joarley/Dev/github/aws_lambda_deploy/project_template"
+lambda_project_home="full/path/to/your/project/home" # e.g. project_template
 dist_dir_name="dist"
 proj_file_names=("src" "conf" "data")
 pip_env_dir_name="env"
@@ -10,7 +10,7 @@ deploy_bundle_name="lambda_bundle.zip"
 lambda_function_name="awesome-lambda-function"
 s3_deploy_bucket="awesome-lambda-code"
 s3_deploy_key=${deploy_bundle_name}
-aws_cli_profile="namelabs"
+aws_cli_profile="my_profile_name"
 
 
 dist_path=${lambda_project_home}/${dist_dir_name}
