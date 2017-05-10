@@ -8,10 +8,9 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-env/
 build/
 develop-eggs/
-dist/
+dist/*
 downloads/
 eggs/
 .eggs/
@@ -87,3 +86,10 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+#Editor
+.idea
+
+# Other
+lambda_bundle.zip
+.DS_Store
