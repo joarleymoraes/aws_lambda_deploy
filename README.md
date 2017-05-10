@@ -1,4 +1,4 @@
-# lambda_deploy
+# AWS Lambda Deploy
 Hassle Free Python Lambda Deployment
 
 How to use it:
