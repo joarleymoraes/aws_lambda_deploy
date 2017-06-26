@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-lambda_project_home="full/path/to/your/project/home" # e.g. project_template
+lambda_project_home="$(pwd)"
 dist_dir_name="dist"
 proj_file_names=("src" "conf" "data")
 pip_env_dir_name="env"
@@ -10,7 +10,12 @@ deploy_bundle_name="lambda_bundle.zip"
 lambda_function_name="awesome-lambda-function"
 s3_deploy_bucket="awesome-lambda-code"
 s3_deploy_key=${deploy_bundle_name}
-aws_cli_profile="my_profile_name"
+
+if [ -z "${AWS_CLI_PROFILE}" ]; then
+   aws_cli_profile=""
+else
+    aws_cli_profile="--profile ${AWS_CLI_PROFILE}"
+fi
 
 
 dist_path=${lambda_project_home}/${dist_dir_name}
@@ -53,15 +58,17 @@ cd -
 echo "Uploading deployment package to S3 ..."
 
 deploy_bundle_path=${lambda_project_home}/${deploy_bundle_name}
-aws s3 cp ${deploy_bundle_path} s3://${s3_deploy_bucket}/${s3_deploy_key} --profile ${aws_cli_profile}
+aws s3 cp ${deploy_bundle_path} s3://${s3_deploy_bucket}/${s3_deploy_key} \
+    ${aws_cli_profile} \
+    && echo "Successful Upload" || (echo "Failed" && exit 1)
 
 echo "Updating Lambda functions ..."
 
 aws lambda update-function-code --function-name ${lambda_function_name} \
     --s3-bucket ${s3_deploy_bucket} --s3-key ${s3_deploy_key} \
-    --publish --profile ${aws_cli_profile}
+    --publish ${aws_cli_profile} \
+    && echo "Deployment completed successfully" || (echo "Failed" && exit 1)
 
-echo "Deployment completed"
 
 
 
